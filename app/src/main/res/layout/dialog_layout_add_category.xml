@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="100dp"
+    android:padding="@dimen/common_padding">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="@string/add_category"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginTop="@dimen/common_padding"
+        android:hint="@string/enter_category_name" />
+
+    <TextView
+        android:id="@+id/warning_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_name"
+        android:visibility="gone"
+        android:text="@string/category_already_exists"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/positive_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/category_name"
+        android:layout_marginTop="48dp"
+        android:background="@null"
+        android:text="@string/add"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/negative_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_name"
+        android:layout_marginTop="48dp"
+        android:layout_toStartOf="@id/positive_button"
+        android:background="@null"
+        android:text="@string/cancel"
+        android:textColor="@color/colorAccent" />
+
+</RelativeLayout>

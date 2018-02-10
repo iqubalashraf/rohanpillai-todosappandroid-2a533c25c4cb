@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TodosApp</string>
+    <string name="categories">Categories</string>
+    <string name="work">Work</string>
+    <string name="_2_items">2 items</string>
+    <string name="text_cancel">CANCEL</string>
+    <string name="text_add">ADD</string>
+    <string name="add_category">Add category</string>
+    <string name="enter_category_name">Enter category name</string>
+    <string name="cancel">CANCEL</string>
+    <string name="add">ADD</string>
+    <string name="category_already_exists">Category already exists</string>
+    <string name="text_press_again_to_exit">Press again to exit</string>
+
+</resources>
