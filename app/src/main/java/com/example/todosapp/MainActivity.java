@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initializeViews();
         initializeOnClickListener();
-        updateData();
     }
 
     @Override
@@ -45,7 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateData();
+    }
     private void initializeViews() {
         activity = this;
         categories_list = findViewById(R.id.categories_list);

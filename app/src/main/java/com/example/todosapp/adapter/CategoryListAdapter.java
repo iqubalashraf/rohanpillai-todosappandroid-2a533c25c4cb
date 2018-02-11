@@ -1,6 +1,7 @@
 package com.example.todosapp.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.todosapp.R;
+import com.example.todosapp.activity.ItemListActivity;
 import com.example.todosapp.dataModel.CategoryNames;
+import com.example.todosapp.util.Key;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,18 @@ public class CategoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((ViewHolderNoteCards) holder).item_count.setText(String.valueOf(categoryNames.getCount()) + " item");
             else
                 ((ViewHolderNoteCards) holder).item_count.setText(String.valueOf(categoryNames.getCount()) + " items");
+
+            ((ViewHolderNoteCards) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent itemListIntent = new Intent(activity, ItemListActivity.class);
+                    itemListIntent.putExtra(Key.KEY_CategoryName, categoryNames.getName());
+                    itemListIntent.putExtra(Key.KEY_CategoryId, categoryNames.getId());
+                    activity.startActivity(itemListIntent);
+                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                }
+            });
 
         }
     }

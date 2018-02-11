@@ -11,23 +11,31 @@
         android:layout_height="?actionBarSize"
         android:gravity="center_vertical"
         android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:paddingEnd="@dimen/common_padding"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        android:paddingStart="@dimen/common_padding">
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:paddingStart="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/back_button"
             android:text="@string/categories"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            tools:ignore="RtlSymmetry" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/categories_list"
+        android:id="@+id/item_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/action_bar_custom" />
@@ -38,10 +46,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:alpha="0.7"
+        android:elevation="4dp"
         android:layout_marginBottom="@dimen/common_padding"
         android:layout_marginEnd="@dimen/common_padding"
-        android:elevation="4dp"
-        android:background="@drawable/ripple_for_add_item"
+        android:background="@drawable/selector_for_add_button"
         android:padding="12dp"
         android:src="@drawable/ic_add" />
 </RelativeLayout>

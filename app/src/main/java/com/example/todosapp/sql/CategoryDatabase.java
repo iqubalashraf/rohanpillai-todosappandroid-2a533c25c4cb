@@ -21,10 +21,23 @@ public class CategoryDatabase extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "TO_DOS_APP";                      // Database Name
+    private static final String TABLE_ITEMS_LIST = "ITEMS_TABLE";                  // Items table name
     private static final String TABLE_CATEGORY_LIST = "CATEGORY_TABLE";            // Category table name
     private static final String KEY_ID = "ID";                                     // ID of each note
+    private static final String KEY_TITLE = "TITLE";                               // Title of each note
+    private static final String KEY_DESCRIPTION = "DESCRIPTION";                   // Description of each note
+    private static final String KEY_IMAGE_PATH = "IMAGE_PATH";                     // Image Path of each note
+    private static final String KEY_STATUS = "STATUS";                             // Status of each note
+    private static final String KEY_CATEGORY_ID = "CATEGORY_ID";                   // Id of parent category
     private static final String KEY_CATEGORY = "CATEGORY";                         // CATEGORY of each note
     private static final String KEY_COUNT = "COUNT";                               // COUNT of each note
+
+    private String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEMS_LIST + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT," + KEY_DESCRIPTION + " TEXT,"
+            + KEY_IMAGE_PATH + " TEXT," + KEY_STATUS + " INTEGER," + KEY_CATEGORY_ID + " INTEGER" + ")";
+
+    private String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY_LIST + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT," + KEY_COUNT + " INTEGER" + ")";
 
     public CategoryDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,15 +46,15 @@ public class CategoryDatabase extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CATEGORY_LIST + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT," + KEY_COUNT + " INTEGER" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_ITEMS_TABLE);
+        db.execSQL(CREATE_CATEGORY_TABLE);
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_LIST);
 
         // Create tables again
