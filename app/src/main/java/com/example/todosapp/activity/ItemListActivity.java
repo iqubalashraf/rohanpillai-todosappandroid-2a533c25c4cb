@@ -47,6 +47,8 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
         categoryId = bundle.getInt(Key.KEY_CategoryId);
         initializeViews();
         initializeOnClickListener();
+//        updateData();
+
     }
 
     @Override

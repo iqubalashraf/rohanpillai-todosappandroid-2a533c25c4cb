@@ -1,6 +1,9 @@
 package com.example.todosapp.adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -50,8 +53,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final ItemDetails itemDetails = itemDetailsArrayList.get(position);
         if (holder instanceof ViewHolderItems) {
-            if (itemDetails.getImage_path().length() > 0)
-                ((ViewHolderItems) holder).image_view.setImageURI(Uri.parse(itemDetails.getImage_path()));
+            if (itemDetails.getImage_path().length() > 0) {
+                ((ViewHolderItems) holder).image_view.setImageURI(Uri.parse(itemDetails.getThumbnail_uri()));
+            }
+
             ((ViewHolderItems) holder).item_title.setText(itemDetails.getTitle());
             if (itemDetails.getStatus() == Key.KEY_COMPLETED) {
                 ((ViewHolderItems) holder).status_done.setVisibility(View.VISIBLE);
@@ -108,6 +113,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    private Bitmap getThumbNail(String imagePath) {
+        try {
+            return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath), 60, 60);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private class ViewHolderItems extends RecyclerView.ViewHolder {
         View itemView;
         RoundedImageView image_view;
@@ -123,4 +136,5 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             status_pending = itemView.findViewById(R.id.status_pending);
         }
     }
+
 }

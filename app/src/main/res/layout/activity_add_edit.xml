@@ -65,9 +65,9 @@
             <ImageView
                 android:id="@+id/selected_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/solid_white_background"
+                android:background="@drawable/solid_grey_background"
                 android:minHeight="200dp" />
 
             <Button
@@ -85,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/add_image_button"
                 android:layout_marginEnd="@dimen/common_padding"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
                 android:layout_marginStart="@dimen/common_padding"
                 android:layout_marginTop="@dimen/common_padding"
                 android:hint="@string/title" />

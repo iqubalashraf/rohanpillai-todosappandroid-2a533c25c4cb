@@ -3,11 +3,20 @@ package com.example.todosapp.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +30,10 @@ import com.example.todosapp.sql.ItemsDatabase;
 import com.example.todosapp.util.GeneralUtil;
 import com.example.todosapp.util.Key;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by ashrafiqubal on 11/02/18.
@@ -42,7 +54,7 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton clear_button;
     boolean isNewNote = true;
     int itemId = 0;
-    String image_uri = "";
+    String image_uri = "", thumbnail_uri = "";
     ItemDetails itemDetails = new ItemDetails();
 
     @Override
@@ -101,8 +113,21 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == Key.KEY_REQUEST_GALLARY && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 Uri uri = data.getData();
-                image_uri = uri.toString();
+                try{
+                    Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnails(
+                            getContentResolver(), uri,
+                            MediaStore.Images.Thumbnails.MINI_KIND,
+                            null );
+                    if( cursor != null && cursor.getCount() > 0 ) {
+                        cursor.moveToFirst();//**EDIT**
+                        image_uri = cursor.getString( cursor.getColumnIndex( MediaStore.Images.Thumbnails.DATA ) );
+                        cursor.close();
+                    }
+                }catch (Exception e){
+                    image_uri = uri.toString();
+                }
                 selected_image.setImageURI(uri);
+                saveBitmap(getThumbNail(((BitmapDrawable)selected_image.getDrawable()).getBitmap()));
             } catch (Exception e) {
                     e.printStackTrace();
             }
@@ -143,6 +168,10 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
             add_title.setText(itemDetails.getTitle());
             add_description.setText(itemDetails.getDescription());
             image_uri = itemDetails.getImage_path();
+            thumbnail_uri = itemDetails.getThumbnail_uri();
+            if(image_uri.length() >0 ){
+                selected_image.setImageURI(Uri.parse(image_uri));
+            }
             if (itemDetails.getStatus() == Key.KEY_COMPLETED)
                 add_status.setChecked(true);
             else
@@ -165,6 +194,11 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private boolean validateForm() {
         return !add_title.getText().toString().trim().equals("");
     }
@@ -172,7 +206,8 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
     private void addNote() {
         if (itemsDatabase.addNote(add_title.getText().toString().trim(),
                 add_description.getText().toString().trim(),
-                "",
+                image_uri,
+                thumbnail_uri,
                 add_status.isChecked() ? 1 : 0,
                 categoryId, itemsDatabase.getNotesCount(categoryId))) {
             GeneralUtil.showMessage(getString(R.string.text_note_added_successfully));
@@ -185,11 +220,42 @@ public class AddEditActivity extends AppCompatActivity implements View.OnClickLi
         if (itemsDatabase.updateNote(itemId, add_title.getText().toString().trim(),
                 add_description.getText().toString().trim(),
                 image_uri,
+                thumbnail_uri,
                 add_status.isChecked() ? 1 : 0) ) {
             GeneralUtil.showMessage(getString(R.string.text_note_updated_successfully));
             finish();
         } else {
             GeneralUtil.showMessage(getString(R.string.text_unable_to_update_note));
+        }
+    }
+    private Bitmap getThumbNail(Bitmap bitmap) {
+        try{
+            return ThumbnailUtils.extractThumbnail(bitmap, 120, 120);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    private void saveBitmap(Bitmap bitmap){
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/.savenote/.thumbnail");
+        if(!myDir.exists()){
+            myDir.mkdirs();
+        }
+        long n = new Date().getTime();
+        String fname = "Image-" + n + ".jpg";
+        File file = new File(myDir, fname);
+        thumbnail_uri = file.getAbsoluteFile().toString();
+        Log.i(TAG, "" + file);
+        if (file.exists())
+            file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

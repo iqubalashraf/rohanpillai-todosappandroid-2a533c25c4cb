@@ -5,9 +5,17 @@ package com.example.todosapp.dataModel;
  */
 
 public class ItemDetails {
-    String title = "", description = "", image_path = "";
+    String title = "", description = "", image_path = "", thumbnail_uri = "";
     int status = 0;
     int id = 0, category_id = 0;
+
+    public String getThumbnail_uri() {
+        return thumbnail_uri;
+    }
+
+    public void setThumbnail_uri(String thumbnail_uri) {
+        this.thumbnail_uri = thumbnail_uri;
+    }
 
     public int getCategory_id() {
         return category_id;

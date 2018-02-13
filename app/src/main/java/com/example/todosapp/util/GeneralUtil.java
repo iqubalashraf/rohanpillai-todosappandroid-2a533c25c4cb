@@ -20,12 +20,12 @@ public class GeneralUtil {
     }
     public static boolean checkStorageReadPermission(Activity activity){
         return ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
     }
     public static void requestReadStoragePermission(Activity activity, int REQUEST_CODE){
         ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 REQUEST_CODE);
     }
     public static void openGallary(Activity activity, int REQUEST_CODE) {

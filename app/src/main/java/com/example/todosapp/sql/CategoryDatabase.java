@@ -27,6 +27,7 @@ public class CategoryDatabase extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "TITLE";                               // Title of each note
     private static final String KEY_DESCRIPTION = "DESCRIPTION";                   // Description of each note
     private static final String KEY_IMAGE_PATH = "IMAGE_PATH";                     // Image Path of each note
+    private static final String KEY_THUMBNAIL_PATH = "THUMBNAIL_PATH";             // Image Path of each note
     private static final String KEY_STATUS = "STATUS";                             // Status of each note
     private static final String KEY_CATEGORY_ID = "CATEGORY_ID";                   // Id of parent category
     private static final String KEY_CATEGORY = "CATEGORY";                         // CATEGORY of each note
@@ -34,7 +35,7 @@ public class CategoryDatabase extends SQLiteOpenHelper {
 
     private String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEMS_LIST + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT," + KEY_DESCRIPTION + " TEXT,"
-            + KEY_IMAGE_PATH + " TEXT," + KEY_STATUS + " INTEGER," + KEY_CATEGORY_ID + " INTEGER" + ")";
+            + KEY_IMAGE_PATH + " TEXT," + KEY_THUMBNAIL_PATH + " TEXT," + KEY_STATUS + " INTEGER," + KEY_CATEGORY_ID + " INTEGER" + ")";
 
     private String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY_LIST + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT," + KEY_COUNT + " INTEGER" + ")";
